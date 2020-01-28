@@ -24,6 +24,9 @@ character_files = [os.path.join(character_dir, "characters.csv")]
 @mkdir(character_dir)
 @originate(character_files)
 def get_character_data(output_file):
+    """
+    Get the character data from the Star Wars `people` API
+    """
     people = swapi.get_all("people")
 
     def clean_species_val(url):
@@ -60,14 +63,17 @@ clean_files = [os.path.join(clean_dir, "clean.csv")]
     formatter(r".*?\.csv"),
     os.path.join(clean_dir, "cleaned.csv"))
 def clean_data(input_file, output_file):
-
+    """
+    Remove character rows with "unknown" height.
+    Take the top ten characters, sorted by appearances, descending)
+    """
     df = pd.read_csv(input_file, index_col="appearances")
     # df = df.reset_index(drop=True)
     df = df.fillna("")
 
     remove_unknown_df = df[df['height'] != "unknown"].copy()
-
     df = remove_unknown_df.sort_index(ascending=False)
+
     df = df.head(10)
     df.to_csv(output_file)
 
@@ -82,11 +88,18 @@ species_files = [os.path.join(species_dir, "with_species.csv")]
     formatter(r".*?\.csv"),
     os.path.join(species_dir, "with_species.csv"))
 def get_species_data(input_file, output_file):
+    """
+    Gets the species names from the Star Wars `species` API
+    """
     df = pd.read_csv(input_file, index_col="appearances")
     # df = df.reset_index(drop=True)
     df = df.fillna("")
 
     def get_species(row):
+        """
+        API returns a url for species, which we've already reduced to
+        the unique ID. Use the Star Wars API to get the species name
+        """
         print(row)
         if row["species_id"] == "":
             row["species"] = "unknown"
@@ -112,6 +125,9 @@ final_files = [os.path.join(final_dir, "final.csv")]
     formatter(r".*?\.csv"),
     os.path.join(final_dir, "final.csv"))
 def final_data(input_file, output_file):
+    """
+    Order by height, descending
+    """
     df = pd.read_csv(input_file, index_col="appearances")
     df = df.reset_index()
     df = df.set_index("height")
