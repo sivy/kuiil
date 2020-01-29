@@ -3,7 +3,7 @@ A pipeline process for star wars data
 """
 import logging
 import os
-import swapi
+from ruffus_pipeline import swapi
 
 import pandas as pd
 from ruffus import (
@@ -27,23 +27,23 @@ def get_character_data(output_file):
     """
     Get the character data from the Star Wars `people` API
     """
-    people = swapi.get_all("people")
+    people = swapi.get_people()
 
     def clean_species_val(url):
         return int(url.strip("/").split("/")[-1])
 
     data = []
-    for character in people.items:
-        print("%s: %s" % (character.name, character.species))
-        if len(character.species) > 0:
-            species_value = clean_species_val(character.species[0])
+    for character in people:
+        print("%s: %s" % (character["name"], character["species"]))
+        if len(character["species"]) > 0:
+            species_value = clean_species_val(character["species"][0])
         else:
             species_value = None
 
         row = {
-            "name": character.name,
-            "height": character.height,
-            "appearances": len(character.films),
+            "name": character["name"],
+            "height": character["height"],
+            "appearances": len(character["films"]),
             "species_id": species_value,
         }
         data.append(row)
@@ -107,7 +107,7 @@ def get_species_data(input_file, output_file):
         species_id = int(row["species_id"])
         species = swapi.get_species(species_id)
         # print(species)
-        row["species"] = species.name if species.name else ""
+        row["species"] = species["name"] if species["name"] else ""
         return row
 
     df = df.apply(get_species, axis=1)
