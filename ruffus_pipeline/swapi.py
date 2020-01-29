@@ -8,7 +8,7 @@ def get_people():
     """
     This is cleaner and easier to test than the available swapi
     """
-    url = os.path.join(BASE_URL, "people/")
+    url = os.path.join(BASE_URL, "people/?page=1&format=json")
 
     resp = requests.get(url, verify=False)
     data = resp.json()
