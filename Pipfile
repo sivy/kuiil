@@ -5,13 +5,13 @@ name = "pypi"
 
 [packages]
 ruffus = "*"
-swapi = "*"
-pytest = "*"
 pandas = "*"
 
 [dev-packages]
+responses = "*"
 pytest = "*"
 autopep8 = "*"
+urllib3 = "*"
 
 [requires]
 python_version = "3.7.4"
