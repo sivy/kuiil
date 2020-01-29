@@ -3,8 +3,8 @@ import responses
 import os
 import pandas as pd
 
-# from ruffus_pipeline import swapi
-from ruffus_pipeline import trenchrun as tr
+# from pipeline import swapi
+from pipeline import trenchrun as tr
 import json
 
 

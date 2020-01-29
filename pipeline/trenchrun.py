@@ -3,7 +3,7 @@ A pipeline process for star wars data
 """
 import logging
 import os
-from ruffus_pipeline import swapi
+from pipeline import swapi
 
 import pandas as pd
 from ruffus import (
