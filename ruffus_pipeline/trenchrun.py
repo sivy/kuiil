@@ -7,7 +7,7 @@ from ruffus_pipeline import swapi
 
 import pandas as pd
 from ruffus import (
-    cmdline, formatter,
+    cmdline, formatter, pipeline_run,
     mkdir, originate, transform,
 )
 
@@ -140,7 +140,11 @@ def main():
 
     args = parser.parse_args()
 
-    cmdline.run(args)
+    if args.target_tasks:
+        cmdline.run(args)
+
+    else:
+        pipeline_run(final_data)
 
 
 if __name__ == "__main__":
