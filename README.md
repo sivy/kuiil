@@ -9,7 +9,7 @@ Using the Star Wars API (https://swapi.co/)
 1. [x] Find the ten characters who appear in the most Star Wars films
 2. [x] Sort those ten characters by height in descending order (i.e., tallest first)
 3. [x] Produce a CSV with the following columns: name, species, height, appearances
-4. [ ] Send the CSV to httpbin.org
+4. [x] Send the CSV to httpbin.org
 5. [x] Create automated tests that validate your code
 
 ## Notes
@@ -55,6 +55,7 @@ I use `pipenv` for most of my python projects, but this code also has a requirem
 #### Run Tests
 
 ```
+EXPORT DATADIR=/path/to/data
 PYTHONPATH=. pytest -q tests/test_pipelines.py
 ```
 
@@ -68,3 +69,19 @@ PYTHONPATH=. python pipeline/trenchrun.py
 
 To rerun a particular stage, delete the output file `data/<stage>/*.csv`, and run `python pipeline/trenchrun.py -T <stage>` (see stage names above).
 
+### Reviewing Data
+
+Open `$DATADIR` to find the following directories and files:
+
+- `characters/`
+    - `characters.csv`
+- `clean/`
+    - `cleaned.csv`
+- `with_species/`
+    - `with_species.csv`
+- `final_data/`
+    - `final_data.csv`
+- `published/`
+    - `receipt.yaml`
+
+Each of these can be inspected to observce the results of the transformations applied in the stage.
