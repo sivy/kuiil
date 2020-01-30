@@ -2,6 +2,7 @@
 import responses
 import os
 import pandas as pd
+import yaml
 
 # from pipeline import swapi
 from pipeline import trenchrun as tr
@@ -107,7 +108,7 @@ def test_final_data():
 
     output_file = os.path.join(
         os.path.dirname(__file__),
-        "final.csv"
+        "final_data.csv"
     )
 
     tr.final_data(input_file, output_file)
@@ -124,3 +125,32 @@ def test_final_data():
     # by default the first row has to be True
     df.ix[0, "sort_correct"] = True
     assert df["sort_correct"].all()
+
+
+@responses.activate
+def test_publish_data():
+
+    input_file = os.path.join(
+        os.path.dirname(__file__),
+        "data",
+        "final_data.csv"
+    )
+
+    output_file = os.path.join(
+        os.path.dirname(__file__),
+        "receipt.yaml"
+    )
+
+    with open("tests/data/publish_response.json", "r") as publish_response:
+        responses.add(
+            responses.POST, "https://httpbin.org/post",
+            json=json.load(publish_response), status=200,
+        )
+
+    tr.publish_data(input_file, output_file)
+    assert os.path.exists(output_file)
+
+    with open(output_file, "r") as receipt_file:
+        receipt = yaml.load(receipt_file, Loader=yaml.SafeLoader)
+
+    assert receipt['url'] == "https://httpbin.org/post"

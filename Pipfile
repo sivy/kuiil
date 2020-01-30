@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 ruffus = "*"
 pandas = "*"
+pyyaml = "*"
 
 [dev-packages]
 responses = "*"
