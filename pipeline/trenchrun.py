@@ -4,6 +4,8 @@ A pipeline process for star wars data
 import logging
 import os
 from pipeline import swapi
+import yaml
+import requests
 
 import pandas as pd
 from ruffus import (
@@ -115,15 +117,15 @@ def get_species_data(input_file, output_file):
     df.to_csv(output_file)
 
 
-final_dir = os.path.join(DATADIR, "final")
-final_files = [os.path.join(final_dir, "final.csv")]
+final_dir = os.path.join(DATADIR, "final_data")
+final_files = [os.path.join(final_dir, "final_data.csv")]
 
 
 @mkdir(final_dir)
 @transform(
     get_species_data,
     formatter(r".*?\.csv"),
-    os.path.join(final_dir, "final.csv"))
+    os.path.join(final_dir, "final_data.csv"))
 def final_data(input_file, output_file):
     """
     Order by height, descending
@@ -135,6 +137,26 @@ def final_data(input_file, output_file):
     df.to_csv(output_file)
 
 
+publish_dir = os.path.join(DATADIR, "published")
+
+
+@mkdir(publish_dir)
+@transform(
+    final_data,
+    formatter(r".*?\.csv"),
+    os.path.join(publish_dir, "receipt.yaml"))
+def publish_data(input_file, output_file):
+
+    with open(input_file, "r") as data_file:
+        data = data_file.read()
+
+    resp = requests.post("https://httpbin.org/post", data=data, verify=False)
+
+    resp_data = resp.json()
+    with open(output_file, "w") as receipt_file:
+        yaml.dump(resp_data, receipt_file)
+
+
 def main():
     parser = cmdline.get_argparse(description="Trench Run pipeline")
 
@@ -144,7 +166,7 @@ def main():
         cmdline.run(args)
 
     else:
-        pipeline_run(final_data)
+        pipeline_run(publish_data)
 
 
 if __name__ == "__main__":
