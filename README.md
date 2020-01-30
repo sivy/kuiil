@@ -1,6 +1,6 @@
 # kuiil
 
-![I have spoken.](assets/kuill.jpg)
+<img src="assets/kuiil.jpg" title="I have spoken.">
 
 > I have spoken.
 
