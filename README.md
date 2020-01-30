@@ -52,6 +52,8 @@ I use `pipenv` for most of my python projects, but this code also has a requirem
 
 ```
 # make a virtualenv first if you choose
+% git clone https://github.com/sivy/kuiil.git
+% cd kuiil
 % pip install -r requirements.txt
 ```
 
