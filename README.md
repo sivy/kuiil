@@ -41,7 +41,10 @@ Ruffus is probably a bit of overkill, but I've used it for quite a few utility E
     - reads the csv from the previous stage
     - sorts data by `height` (descending)
     - outputs csv with `name`, `height`, `appearances`, `species`
-
+- Publish Data (stage `publish_data`)
+    - reads the csv from the previous stage
+    - posts the data to <https://httpbin.org/post>
+    - parses the `json` data as then write it to `receipt.yaml` demonstrating the published API call.
 
 ### Running the Code
 
