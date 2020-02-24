@@ -71,7 +71,7 @@ PYTHONPATH=. pytest -q tests/test_pipelines.py
 #### Run Pipeline
 
 ```
-PYTHONPATH=. python pipeline/trenchrun.py
+PYTHONPATH=. python ruffus/pipeline/trenchrun.py
 ```
 
 To rerun a particular stage, delete the output file `data/<stage>/*.csv`, and run `python pipeline/trenchrun.py -T <stage>` (see stage names above).

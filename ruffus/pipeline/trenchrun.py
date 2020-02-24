@@ -23,6 +23,52 @@ character_dir = os.path.join(DATADIR, "characters")
 character_files = [os.path.join(character_dir, "characters.csv")]
 
 
+def get_all_species_data(output_file):
+    """
+    Get the character data from the Star Wars `species` API
+
+    {
+        "name": "Hutt",
+        "classification": "gastropod",
+        "designation": "sentient",
+        "average_height": "300",
+        "skin_colors": "green, brown, tan",
+        "hair_colors": "n/a",
+        "eye_colors": "yellow, red",
+        "average_lifespan": "1000",
+        "homeworld": "https://swapi.co/api/planets/24/",
+        "language": "Huttese",
+        "people": [
+            "https://swapi.co/api/people/16/"
+        ],
+        "films": [
+            "https://swapi.co/api/films/3/",
+            "https://swapi.co/api/films/1/"
+        ],
+        "created": "2014-12-10T17:12:50.410000Z",
+        "edited": "2014-12-20T21:36:42.146000Z",
+        "url": "https://swapi.co/api/species/5/"
+    }
+    """
+    species = swapi.get_all_species()
+
+    def clean_species_val(url):
+        return int(url.strip("/").split("/")[-1])
+
+    data = []
+    for s in species:
+        row = {
+            "name": s["name"],
+            "id": s["url"].strip("/").split("/")[-1],
+        }
+        data.append(row)
+
+    df = pd.DataFrame(data=data)
+    df = df.set_index("id")
+
+    df.to_csv(output_file)
+
+
 @mkdir(character_dir)
 @originate(character_files)
 def get_character_data(output_file):
@@ -51,7 +97,7 @@ def get_character_data(output_file):
         data.append(row)
 
     df = pd.DataFrame(data=data)
-    df = df.set_index("appearances")
+    df = df.set_index("appearance")
     df.to_csv(output_file)
 
 
@@ -102,7 +148,6 @@ def get_species_data(input_file, output_file):
         API returns a url for species, which we've already reduced to
         the unique ID. Use the Star Wars API to get the species name
         """
-        print(row)
         if row["species_id"] == "":
             row["species"] = "unknown"
             return row

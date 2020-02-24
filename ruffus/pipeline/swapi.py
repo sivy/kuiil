@@ -31,3 +31,22 @@ def get_species(species_id):
     data = resp.json()
 
     return data
+
+
+def get_all_species():
+    """
+    This is cleaner and easier to test than the available swapi
+    """
+    url = os.path.join(BASE_URL, "species/?page=1&format=json")
+
+    resp = requests.get(url, verify=False)
+    data = resp.json()
+
+    species_data = data['results'].copy()
+
+    while data['next'] is not None:
+        resp = requests.get(data["next"], verify=False)
+        data = resp.json()
+        species_data.extend(data["results"])
+
+    return species_data

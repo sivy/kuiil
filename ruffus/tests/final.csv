@@ -1,0 +1,10 @@
+"{\n    \"args\": {},\n    \"data\": \"height,appearances,name,species\\n228,5,Chewbacca,Wookiee\\\
+  n202,4,Darth Vader,Human\\n182,6,Obi-Wan Kenobi,Human\\n180,4,Han Solo,Human\\n172,5,Luke\
+  \ Skywalker,Human\\n170,5,Palpatine,Human\\n167,6,C-3PO,Droid\\n150,5,Leia Organa,Human\\\
+  n96,7,R2-D2,Droid\\n66,5,Yoda,Yoda's species\\n\",\n    \"files\": {},\n    \"form\"\
+  : {},\n    \"headers\": {\n        \"Accept\": \"*/*\",\n        \"Accept-Encoding\"\
+  : \"gzip, deflate\",\n        \"Content-Length\": \"261\",\n        \"Host\": \"\
+  httpbin.org\",\n        \"User-Agent\": \"python-requests/2.5.0 CPython/3.7.4 Darwin/19.2.0\"\
+  ,\n        \"X-Amzn-Trace-Id\": \"Root=1-5e324f31-f7e7bd99e32d66c3b54949ea\"\n \
+  \   },\n    \"json\": null,\n    \"origin\": \"174.73.213.235\",\n    \"url\": \"\
+  https://httpbin.org/post\"\n}"
